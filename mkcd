@@ -1,4 +1,9 @@
 #!/usr/bin/bash
+# author      J.Zimmermann <jz@mgeg.de>
+# modified    2020-11-16
+# description wechselt ein Verzeichnis und legt es bei Bedarf neu an
+
+__version=1.0.0
 
 # der Benutzer hat keine Eingabe gemacht
 test -z "$1" && echo "Bitte Pfad eingeben" && exit 2 
