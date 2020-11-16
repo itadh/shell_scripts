@@ -3,13 +3,13 @@
 # modified    2020-11-16
 # description wechselt ein Verzeichnis und legt es bei Bedarf neu an
 
-__version=1.0.0
+__version=1.1.0
 
 # der Benutzer hat keine Eingabe gemacht
-test -z "$1" && echo "Bitte Pfad eingeben" && exit 2 
+test -z "$1" && read -p "Geben Sie einen Pfad an: " dir || dir=$1
 
 # wechsel ins Verzeichnis
-test -d "$1" || mkdir $1 && cd $1
+test -d "$dir" || mkdir $dir && cd $dir
 
 # tauche die Eltern shell gegen ein neu aus
 exec bash
