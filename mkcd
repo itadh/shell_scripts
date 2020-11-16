@@ -1,19 +1,14 @@
 #!/usr/bin/bash
 
-#echo $1
-#echo $$
-
-pwd
-
+# der Benutzer hat keine Eingabe gemacht
 test -z "$1" && echo "Bitte Pfad eingeben" && exit 2 
 
+# wechsel ins Verzeichnis
 test -d "$1" || mkdir $1 && cd $1
 
-pwd
+# tauche die Eltern shell gegen ein neu aus
 exec bash
 
-#echo "OK"
-exit
-
-
+# ende
+exit 0
 
