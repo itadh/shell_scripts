@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+#echo $1
+#echo $$
+
+pwd
+
+test -z "$1" && echo "Bitte Pfad eingeben" && exit 2 
+
+test -d "$1" || mkdir $1 && cd $1
+
+pwd
+exec bash
+
+#echo "OK"
+exit
+
+
+
