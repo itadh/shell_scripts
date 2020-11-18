@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+time=$(date +%H)
+
+test "$time" -ge 18 && echo "Guten Abend" && exit 0
+test "$time" -ge 11 && echo "Guten Tag" && exit 0
+test "$time" -ge 0 && echo "Guten Morgen" && exit 0
+
