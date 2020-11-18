@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+# author      J.Zimmermann <jz@mgeg.de>
+# modified    2020-11-18
+# description wechselt in ein oder mehrere Verzeichnisse und legt diese bei Bedarf neu an,
+__version=1.0.0
+
+# der Benutzer hat keine Eingabe gemacht
+test -z "$1" && read -p "Geben Sie einen oder mehrere Pfade mit Leerzeichen getrennt an: " dir || dir=$@
+
+# wechsel ins Verzeichnis
+for item in $dir
+do
+  echo "Verzeichnis: $item"
+#  test ! -d $item && mkdir $item
+  test -d $item && continue
+  mkdir $item
+done
+
+cd $item
+
+# tauche die Eltern shell gegen ein neu aus
+exec bash
+
+# ende
+exit 0
+

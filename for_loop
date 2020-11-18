@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+
+
+#for item in a b c d e 1 2 567
+for item in $@
+do
+  echo "Das item ist: $item"
+  echo '-----------'
+done
+
+echo "Sie haben $# Argumente angegeben."
+
+
