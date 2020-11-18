@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+if test "$1" -eq 10
+then
+  echo 'arg = 10'
+  echo 'arg = 10'
+  echo 'arg = 10'
+  echo 'arg = 10'
+  echo 'arg = 10'
+elif test "$1" -eq 20
+then
+  echo 'arg = 20'
+else
+  echo 'etwas anderes'
+fi
+
+

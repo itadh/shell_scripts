@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+time=$(date +%H)
+
+if test "$time" -ge 18
+then 
+  echo "Guten Abend"
+elif test "$time" -ge 11
+then 
+  echo "Guten Tag"
+elif test "$time" -ge 0
+then 
+  echo "Guten Morgen"
+fi
+
