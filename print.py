@@ -1,5 +1,4 @@
 #!/usr/bin/python3
 
-print ('Ich bin Python')
-
+print('Ich bin Python')
 
