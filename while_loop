@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+while test ! "$quit" == "j"
+do 
+  echo .
+  read -p 'Soll die Schleife abbrechen? [j|n]' quit
+  test "$quit" == 'j' && break
+done
+
+echo "Ende Gelände"
+
