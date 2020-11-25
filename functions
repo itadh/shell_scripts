@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+
+
+function foo () {
+  local string='inner Function'
+  echo "Parameter #1 ist $1"
+  echo "String: $string"
+  return 2
+}
+
+string=Zeichenkette
+foo 2
+echo "Ergebnis: $?"
+
+echo $1
+echo "String 2: $string"
+
