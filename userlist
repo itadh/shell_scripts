@@ -1,14 +1,21 @@
 #!/usr/bin/bash
 
 zaehler=0
-while read line
+IFS=':'
+while read login pass uid gid gecos home shell 
 do 
- 
-  uid=$(echo $line | cut -d: -f3)
   test $uid -gt 1000 || continue
-#  test $(echo $line | cut -d: -f3) -gt 1000 || continue
   zaehler=$((zaehler+1))
-  echo "Zeile ${zaehler} für userid ${uid}: $line"
+  group=$(id -gn $login)
+  sgroup=$(id -Gn $login)
+
+  echo -e "\n######### ${zaehler} #############"
+  echo "User: ${login}"
+  echo "Uid: ${uid}"
+  echo "Home: ${home}"
+  echo "Shell: ${shell}"
+  echo "primäre Gruppe: ${group}"
+  echo "Sekundäre Gruppe: ${sgroup}"
 
 done < /etc/passwd
 
