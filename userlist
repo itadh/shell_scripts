@@ -7,7 +7,8 @@ do
   test $uid -gt 1000 || continue
   zaehler=$((zaehler+1))
   group=$(id -gn $login)
-  sgroup=$(id -Gn $login)
+  sgroup=$(id -Gn $login | tr ' ' ',')
+  sgroup=${sgroup#*,}
 
   echo -e "\n######### ${zaehler} #############"
   echo "User: ${login}"

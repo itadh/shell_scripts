@@ -1,7 +1,5 @@
 #!/usr/bin/bash
 
-
-
 function foo () {
   local string='inner Function'
   echo "Parameter #1 ist $1"
@@ -9,7 +7,7 @@ function foo () {
   return 2
 }
 
-string=Zeichenkette
+string=kleineZeichenkette
 foo 2
 echo "Ergebnis: $?"
 
