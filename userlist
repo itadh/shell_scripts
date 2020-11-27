@@ -10,15 +10,13 @@ do
   sgroup=$(id -Gn $login | tr ' ' ',')
   sgroup=${sgroup#*,}
 
-  echo -e "\n######### ${zaehler} #############"
-  echo "User: ${login}"
-  echo "Uid: ${uid}"
-  echo "Home: ${home}"
-  echo "Shell: ${shell}"
-  echo "primäre Gruppe: ${group}"
-  echo "Sekundäre Gruppe: ${sgroup}"
+  echo -e "\n############ ${zaehler} ################"
+  echo -e "\e[1mUser:\e[0m \e[31m\t\t\t${login}\e[0m"
+  echo -e "\e[1mUUid:\e[0m \e[32m\t\t\t${uid}\e[0m"
+  echo -e "\e[1mHome:\e[0m \e[33m\t\t\t${home}\e[0m"
+  echo -e "\e[1mShell:\e[0m \e[34m\t\t\t${shell}\e[0m"
+  echo -e "\e[1mprimäre Gruppe:\e[0m \e[35m\t${group}\e[0m"
+  echo -e "\e[1mSekundäre Gruppe:\e[0m \e[36m\t${sgroup}\e[0m"
 
 done < /etc/passwd
-
-echo "Ende Gelände"
 

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+array=(Merkur Venus Erde Mars Jupiter Saturn Uranus Neptun)
+
+
+echo ${array[2]}
+echo ${#array[@]}
+array[8]=Europa
+echo ${array[8]}
+echo ${#array[@]}
+
+
