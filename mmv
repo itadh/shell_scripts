@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Es muessen mindestens zwei Argumente gegeben sein
+test ! "$1" && echo "Es fehlen die Argumente! usage: $0 <files> <files>" && exit 1
+test ! "$2" && echo "Es fehlen die Argumente! usage: $0 <files> <files>" && exit 1
+
+# alles bis einschliesslich des letzten Punktes entfernen
+suffix_source=${1##*.}
+
+# mache aus der List aller Argumente einen String
+last_file=$@
+suffix_destination=${last_file##*.}
+
+# nehme alle Argumente der Kommandozeile
+for file in "$@"
+do
+  # naechste Element bearbeiten wenn das Suffix gleich suffix_destination
+  echo $file | grep -E "${suffix_destination}$" > /dev/null && continue
+
+  echo "rename file from $file nach ${file%${suffix_source}}${suffix_destination}"
+  mv $file ${file%${suffix_source}}${suffix_destination}
+done
+
