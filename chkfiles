@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# author: jz@mgeg.de
+# change: 2020-12-01
+# usage: chkfiles
+# description: create database with important file attributes
+
+# declarations
+directories=(/etc /boot)
+file_db=/root/ids.db
+COLOR_SUCCESS="\e[32m"
+COLOR_FAIL="\e[31m"
+COLOR_RESET="\e[0m"
+#DEBUG=TRUE
+
+# cleanup
+rm -rf $file_db
+
+# main loop
+for directory in "${directories[@]}"
+do
+  echo -e "processing ${COLOR_SUCCESS}${directory}${COLOR_RESET}"
+
+  # make database
+  echo "# file;owner;group;perms;ctime;hash" > $file_db
+  while read inode blocks perms hlinks owner group size month day time file
+  do
+    test "$DEBUG" == "TRUE" && echo "File: $inode $blocks $perms $hlinks $owner $group $size $month $day $time $file"
+    hash=$(sha256sum $file | tr -s ' ' | cut -d' ' -f1)
+    ctime=$(ls -ldca --full-time $file | tr -s ' ' | cut -d' ' -f6,7 )
+    echo "'${file}';'${owner}';'${group}';'${perms}';'${ctime}';'${hash}'" >> $file_db
+  done <<< $(find $directory -type f -ls) # !! must using 'here string'
+done
+
+exit 0
+
