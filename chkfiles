@@ -8,29 +8,111 @@
 # declarations
 directories=(/etc /boot)
 file_db=/root/ids.db
+_file_db=$(mktemp)
 COLOR_SUCCESS="\e[32m"
 COLOR_FAIL="\e[31m"
 COLOR_RESET="\e[0m"
 #DEBUG=TRUE
 
-# cleanup
-rm -rf $file_db
+# create database with file attributes
+function createdb () {
 
-# main loop
-for directory in "${directories[@]}"
-do
-  echo -e "processing ${COLOR_SUCCESS}${directory}${COLOR_RESET}"
+  # cleanup
+  test -n "$2" && rm -rf $1
+  echo "# file;owner;group;perms;ctime;hash" > $1
 
-  # make database
-  echo "# file;owner;group;perms;ctime;hash" > $file_db
-  while read inode blocks perms hlinks owner group size month day time file
+  for directory in "${directories[@]}"
   do
-    test "$DEBUG" == "TRUE" && echo "File: $inode $blocks $perms $hlinks $owner $group $size $month $day $time $file"
-    hash=$(sha256sum $file | tr -s ' ' | cut -d' ' -f1)
-    ctime=$(ls -ldca --full-time $file | tr -s ' ' | cut -d' ' -f6,7 )
-    echo "'${file}';'${owner}';'${group}';'${perms}';'${ctime}';'${hash}'" >> $file_db
-  done <<< $(find $directory -type f -ls) # !! must using 'here string'
-done
+    echo -e "processing ${COLOR_SUCCESS}${directory}${COLOR_RESET}"
+  
+    # make database
+    while read inode blocks perms hlinks owner group size month day time file
+    do
+      test "$DEBUG" == "TRUE" && echo "File: $inode $blocks $perms $hlinks $owner $group $size $month $day $time $file"
+      hash=$(sha256sum $file | tr -s ' ' | cut -d' ' -f1)
+      ctime=$(ls -ldca --full-time $file | tr -s ' ' | cut -d' ' -f6,7 )
+      echo "'${file}';'${owner}';'${group}';'${perms}';'${ctime}';'${hash}'" >> $1
+    done <<< $(find $directory -type f -ls) # !! must using 'here string'
+  done
+}
+
+
+# check file attributes
+function chkfiles () {
+  result=()
+  while read line 
+  do
+    result+=("$line")
+  done <<< $(diff $file_db $_file_db)
+}
+
+
+# make pretty output
+function output () {
+  echo "Tempfile: $_file_db"
+
+  # mehrere Variablen einlesen
+  # read a1 b1 c1 <<< $(diff /root/ids.db /tmp/tmp.Z3GAcvt8ig | sed -n 's/^\([0-9]\+\)\([cda]\)\([0-9]\+\)/\1 \2 \3/p')
+
+  declare -a changed
+  declare -a added
+  declare -a deleted
+
+  action=''
+  for line in "${result[@]}"
+  do
+
+    # delete line '---'
+    test "$line" == "---" && continue
+
+    # no action then get action
+    test -z "$action" && action=$(echo $line | grep -Eo '^[0-9]+[dac][0-9]+$' | tr -d [0-9]) && continue
+
+    echo "Action: $action"
+
+    # get deleted action
+    test "$action" == 'd' && deleted+=("$line") && action='' && continue
+
+    # get added action
+    test "$action" == 'a' && added+=("$line") && action='' && continue
+
+    # get changed action
+    _action=$(echo $line | grep -Eo '^[0-9]+[dac][0-9]+$' | tr -d [0-9]) 
+    test -z "$_action" && test "$action" == 'c' && changed+=("$line") && continue
+    test -n "$_action" && action=''
+
+  done
+
+  echo "#### Deleted Files ####"
+  echo "Anzahl: ${#deleted[@]}"
+  echo "${deleted[@]}"
+
+  echo "#### Added Files ####"
+  echo "Anzahl: ${#added[@]}"
+  echo "${added[@]}"
+
+  echo " #### Changed Files ####"
+  echo "Anzahl: ${#changed[@]}"
+  echo "${changed[@]}"
+}
+
+
+case "$1" in
+  --createdb)
+    # create database
+    createdb $file_db --remove
+    ;;
+  --chkfiles)
+    # check file permissions
+    createdb $_file_db
+    chkfiles
+    output
+    ;;
+  *)
+  echo  "usage: $0 [--createdb|--chkfiles]"
+  exit 1
+esac
+
 
 exit 0
 
