@@ -1,0 +1,42 @@
+#!/bin/bash
+
+clear
+read -p 'Geben Sie die zu verschlüsselnde Zeichenkette ein: ' clear_text
+echo
+key=$(dd if=/dev/urandom | tr -dc 10 | head -c 8)
+#key=01110010
+# Schluessel als Dezimalzahl
+key_dec=$(bc <<< "obase=10 ; ibase=2 ; $key")
+
+# main loop
+for (( n=0; n<${#clear_text}; n++ ))
+do
+  # Klartext
+  char=${clear_text:$n:1}
+
+  # Char als Dezimalzahl
+  char_dec=$(printf '%d' "'$char")
+
+  # Char als Binaerzahl
+  char_bin=$(bc <<< "obase=2 ; ibase=10 ; $char_dec" | awk '{ printf "%08d", $0 }')
+
+  # Ergebnis
+  chiffrat=$(( ${char_dec} ^ ${key_dec} ))
+
+  chiffrat_bin=$(bc <<< "obase=2 ; ibase=10 ; $chiffrat" | awk '{ printf "%08d", $0 }')
+
+  echo "============="
+  echo -e "char: \e[1m${char}\e[0m"
+  echo -e "key:  \e[1m${key}\e[0m"
+  echo "============="
+  echo -e "\e[1m${char_bin}\e[0m  Zeichen Binaer"
+  echo -e "\e[1m${key}\e[0m  Schluessel"
+  echo    "--------  XOR"
+  echo -e "\e[1m${chiffrat_bin}\e[0m  Chiffrat"
+  echo ""
+  echo ""
+  
+
+#  result_bin=$(bc <<< "obase=2 ; ibase=10 ; $char_dec" | awk '{ printf "%08d", $0 }')
+done
+
