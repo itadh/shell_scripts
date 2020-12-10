@@ -36,7 +36,5 @@ do
   echo ""
   echo ""
   
-
-#  result_bin=$(bc <<< "obase=2 ; ibase=10 ; $char_dec" | awk '{ printf "%08d", $0 }')
 done
 
