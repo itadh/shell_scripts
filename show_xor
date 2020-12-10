@@ -4,7 +4,7 @@ clear
 read -p 'Geben Sie die zu verschlüsselnde Zeichenkette ein: ' clear_text
 echo
 key=$(dd if=/dev/urandom | tr -dc 10 | head -c 8)
-#key=01110010
+#key=01110010 # Schlüssel aus der Doku
 # Schluessel als Dezimalzahl
 key_dec=$(bc <<< "obase=10 ; ibase=2 ; $key")
 
@@ -25,10 +25,10 @@ do
 
   chiffrat_bin=$(bc <<< "obase=2 ; ibase=10 ; $chiffrat" | awk '{ printf "%08d", $0 }')
 
-  echo "============="
+  echo "=============="
   echo -e "char: \e[1m${char}\e[0m"
   echo -e "key:  \e[1m${key}\e[0m"
-  echo "============="
+  echo "=============="
   echo -e "\e[1m${char_bin}\e[0m  Zeichen Binaer"
   echo -e "\e[1m${key}\e[0m  Schluessel"
   echo    "--------  XOR"
