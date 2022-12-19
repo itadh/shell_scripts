@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#files=$(find /tmp/files -print0)
+#echo $files
+
+IFS="
+"
+for file in $(find /tmp/files)
+do 
+  echo "Datei: $file"
+done
+

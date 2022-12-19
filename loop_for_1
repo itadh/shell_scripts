@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# colors
+CB='\e[30m'
+
+
+for item in $(seq 0 2 30)
+do
+  echo "${item}"
+done
+
+

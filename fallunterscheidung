@@ -1,0 +1,24 @@
+#!/bin/bash
+set -x
+
+echo $1
+
+case "$1" in
+  start)
+    echo "start" | tr '[:lower:]' '[:upper:]'
+    ;;
+  stop)
+    echo "stop" | tr '[:lower:]' '[:upper:]'
+    ;;
+  status)
+    echo "status" | tr '[:lower:]' '[:upper:]'
+    ;;
+  gerd)
+    echo "gerd" | tr '[:lower:]' '[:upper:]'
+    ;;
+  *)
+    echo "das ist irrelevant"
+    ;;
+esac
+
+

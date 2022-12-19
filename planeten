@@ -1,0 +1,7 @@
+#!/bin/bash
+
+select best in Merkur Venus Erde Mars Jupiter Saturn Uranus Neptun Pluto
+do
+  echo "Sie waehlten $best"
+done
+

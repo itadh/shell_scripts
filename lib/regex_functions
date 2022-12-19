@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# validate a ipv4 address
+#
+# author:    jz@mgeg.de
+# param:     input_string(char)          string to be teested
+# param:     front_delimiter(char)       delimiter at beginning of the string
+# param:     back_delimiter(char)        delimiter at the end of the string
+# return:    bool                        return value of the test
+function is_ipv4() 
+{
+  local regex_ipv4='([0-9]|[0-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[0-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[0-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[0-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])'
+  local input_string=$1
+  local front_limiter=$2
+  local back_limiter=$3
+  grep -E "${front_limiter}${regex_ipv4}${back_limiter}" <<< "${input_string}" > /dev/null
+  return $?
+}
+
+
+# get a ipv4 address
+#
+# author:    jz@mgeg.de
+# param:     input_string(char)          string to be teested
+# param:     front_delimiter(char)       delimiter at beginning of the string
+# param:     back_delimiter(char)        delimiter at the end of the string
+# return:    bool                        return value of the test
+function get_ipv4() 
+{
+  local regex_ipv4='([0-9]|[0-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[0-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[0-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[0-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])'
+  local input_file=$1
+  local front_limiter=$2
+  local back_limiter=$3
+  local result_file=$4
+  test -z "${result_file}" && result_file=$(mktemp)
+  grep -oE "${front_limiter}${regex_ipv4}${back_limiter}" "${input_file}" > $result_file
+  echo "Resultfile is ${result_file}"
+  return $?
+}
+

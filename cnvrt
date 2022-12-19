@@ -1,0 +1,33 @@
+#!/bin/bash
+# 
+# author: jz@mgeg.de
+# date: 01.12.2022
+# 
+# Convert Numbers
+
+clear
+echo -e "\n\n Example to convert a hexnumber, type in 'x42'" 
+echo -e "\n b = binary, d = decimal, o = octal, x = hexadecimal\n"
+
+read -p 'Type in number to convert: ' input
+ibase=${input:0:1}
+inumber=${input:1}
+
+base=''
+test "$ibase" == x && base=16
+test "$ibase" == d && base=10
+test "$ibase" == o && base=8
+test "$ibase" == b && base=2
+test -z "$base" && echo "invalid input" && exit 1
+
+hex_value=$(bc <<< "obase=16; ibase=$base; $inumber")
+dec_value=$(bc <<< "obase=10; ibase=$base; $inumber")
+oct_value=$(bc <<< "obase=8; ibase=$base; $inumber")
+bin_value=$(bc <<< "obase=2; ibase=$base; $inumber")
+
+echo -e "\n === Results:"
+echo "Hex: $hex_value"
+echo "Dec: $dec_value"
+echo "Oct: $oct_value"
+echo "Bin: $bin_value"
+

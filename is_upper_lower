@@ -1,0 +1,33 @@
+#!/bin/bash
+
+word=$1
+test -z $word && read -p 'Welches Wort wollen Sie pruefen: ' word
+
+if test -z $word
+then
+  read -p 'Welches Wort wollen Sie pruefen: ' word
+fi
+
+echo $word | grep '[[:lower:]]' > /dev/null
+lower=$?
+echo $word | grep '[[:upper:]]' > /dev/null
+upper=$?
+
+if test $lower -eq 0 && test $upper -eq 0
+then
+  echo "gemischte Schreibweise"
+  exit
+fi
+
+if test $lower -eq 0 && test $upper -ne 0
+then
+  echo "kleine Schreibweise"
+  exit
+fi
+
+test $lower -ne 0 && test $upper -eq 0 && echo "grosse Schreibweise" && exit
+
+echo "Sie gaben keine Buchstaben ein"
+
+
+

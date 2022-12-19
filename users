@@ -1,0 +1,25 @@
+#!/bin/bash
+
+while read zeile
+do
+  echo $zeile
+
+#  login=$(echo $zeile | cut -f1 -d:)
+  login=$(cut -f1 -d: <<< $zeile)
+  uid=$(id -u $login)
+  gid=$(id -g $login)
+  group=$(id -gn $login)
+  home=$(cut -f6 -d: <<< $zeile)
+  shell=$(cut -f7 -d: <<< $zeile)
+
+  echo '##########################'
+  echo "uid: $uid"
+  echo "Login: $login"
+  echo "gid: $gid"
+  echo "primäre Gruppe: $group"
+  echo "Home: $home"
+  echo "Shell: $shell"
+
+done < /etc/passwd
+
+

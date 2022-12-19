@@ -1,12 +1,22 @@
 #!/bin/bash
 
-array=(Merkur Venus Erde Mars Jupiter Saturn Uranus Neptun)
+planets=(Merkur Venus Erde Mars Jupiter Saturn Uranus Pluto)
 
+echo '${planets} - '  ${planets}
+echo '${planets[@]} - '  ${planets[@]}
+echo '${planets[2]} - '  ${planets[2]}
+echo '${#planets[@]} - ' ${#planets[@]}
+echo 'planets[8]=Europa - '
+planets[8]=Europa
+echo '${planets[8]} - '  ${planets[8]}
+echo '${#planets[@]} - ' ${#planets[@]}
+echo '${planets[0]} - '  ${planets[0]}
+echo '${planets[@]} - '  ${planets[@]}
 
-echo ${array[2]}
-echo ${#array[@]}
-array[8]=Europa
-echo ${array[8]}
-echo ${#array[@]}
+echo $planets[2]
 
+for planet in "${planets[@]}"
+do
+  echo "auch $planet ist ein Planet"
+done
 

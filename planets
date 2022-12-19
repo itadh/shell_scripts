@@ -1,0 +1,8 @@
+#!/bin/bash
+
+select choice in Merkur Venus Erde Mars Jupiter Satrun Uranus Neptun Pluto quit
+do
+  test "$choice" == "quit" && exit
+  echo "best Planet is: $choice"
+done
+

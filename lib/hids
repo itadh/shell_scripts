@@ -1,0 +1,53 @@
+c_success="\e[1;32m"
+c_fail="\e[1;31m"
+c_run="\e[1;36m"
+c_reset="\e[0m"
+
+function check() 
+{
+  local dbfile=$1
+  local path=$2 
+  result=0
+  for file in $(find $path -ignore_readdir_race -type f)
+  do
+    echo -e "checking... ${c_run}${file}${c_reset}"
+    line=$(grep -E "${file};" $dbfile)
+    return_code=$?
+    test "$return_code" -ne 0 && echo -e "found: ${c_run}${line}${c_reset}"
+    gather $file
+    test "${file};${hash};${owner};${group};${perms};${size};${ctime}" == "${line}" && \
+      echo -e "File OK: ${c_success}${file}${c_reset}" || \
+      echo -e "File NOK: ${c_fail}${line}${c_reset}
+${file};${hash};${owner};${group};${perms};${size};${ctime}"
+    test "${file};${hash};${owner};${group};${perms};${size};${ctime}" != "${line}" && result=2
+  done
+  return $result
+}
+
+
+function init()
+{
+  local dbfile=$1
+  rm -f $dbfile
+  local path=$2 
+  for file in $(find $path -ignore_readdir_race -type f)
+  do
+    echo -e "${c_run}${file}${c_reset}"
+    gather $file
+    echo "${file};${hash};${owner};${group};${perms};${size};${ctime}" >> $dbfile
+  done
+  return 0
+}
+
+
+function gather()
+{
+  local file=$1
+  hash=$(sha512sum $file | tr -s ' ' | cut -d' ' -f1)
+  perms=$(ls -l $file | tr -s ' ' | cut -d ' ' -f1)
+  owner=$(ls -l $file | tr -s ' ' | cut -d ' ' -f3)
+  group=$(ls -l $file | tr -s ' ' | cut -d ' ' -f3)
+  size=$(ls -l $file | tr -s ' ' | cut -d ' ' -f4)
+  ctime=$(stat $file | grep Change: | cut -d' ' -f1,2,3 --output-delimiter='_')
+}
+

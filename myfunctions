@@ -1,0 +1,16 @@
+#!/bin/bash
+
+function foo ()
+{
+  local string='innerer String'
+  echo $string
+  return 2
+}
+
+
+#string="So Zeichen halt"
+foo
+echo $?
+
+echo $string
+

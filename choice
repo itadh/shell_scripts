@@ -1,0 +1,20 @@
+#!/bin/bash
+
+
+
+#if [ ! -z $1 ]
+if ! test -z $1
+then
+  echo "Ihr Kommando lautete $0"
+  echo "Sie haben $1 als Argument verwendet"
+  echo "Sie haben $@ als Argumente verwendet"
+  echo "Sie haben $# Argumente verwendet"
+  if test $# -gt 1
+  then
+    echo "Sie haben mehr als ein Argument eingegeben"
+  fi
+else
+  echo "Sie waren faul"
+fi
+
+

@@ -1,0 +1,67 @@
+#!/bin/bash
+
+#set -x
+C_SUCCESS="\e[1;32;40m"
+
+function show () 
+{
+  # Userid >= 1000
+  IFS=':'
+  while read login hash uid gid gecos home shell
+  do
+    test $uid -lt 1000 && continue
+    test $login == "nobody" && continue
+    sec_group=$(id -Gn $uid)
+    pri_group=$(id -gn $uid)
+    echo "--------------"
+    echo -e "\e[1mLogin:\e[0m $login"
+    echo -e "\e[1mUserID:\e[0m $uid"
+    echo -e "\e[1mpri Gruppe:\e[0m $pri_group"
+    echo -e "\e[1msec Gruppen:\e[0m $sec_group"
+    echo -e "\e[1mHome:\e[0m $home"
+    echo -e "\e[1mShell:\e[0m $shell" 
+  done < /etc/passwd
+  echo -e "${C_SUCCESS}alle Benutzer angezeigt"
+}
+
+
+function export()
+{
+  # Userid >= 1000
+  IFS=':'
+  while read login hash uid gid gecos home shell
+  do
+    test $uid -lt 1000 && continue
+    test $login == "nobody" && continue
+    echo "${login};${gid}" >> user.list
+  done < /etc/passwd
+}
+
+
+function import ()
+{
+IFS=';'
+while read login gid
+do
+  echo "$login $gid"
+done < user.list
+}
+
+
+# Main
+clear
+while true
+do
+  echo "## Menue ##"
+  echo "Type in [s] to show user list"
+  echo "Type in [i] to import users"
+  echo "Type in [e] to export users"
+  echo "Type in [q] to quit"
+  read -p "Bitte waehlen Sie eine Option: " choice
+  test $choice == "s" && show
+  test $choice == "i" && import
+  test $choice == "e" && export
+  test $choice == "q" && break
+done
+
+

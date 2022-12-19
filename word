@@ -1,0 +1,15 @@
+#!/bin/bash
+clear
+
+read -p 'Geben Sie ein Wort ein: ' word
+echo ${#word}
+
+counter=0
+while true
+do
+  echo ${word:$counter:1}
+  ((counter++))
+  sleep 2
+  test $counter -eq ${#word} && break
+done
+

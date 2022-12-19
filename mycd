@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo "_$2_"
+
+test $2 && echo "Dollar 2"
+
+test -z $1 && echo "das Script erwartet ein Argument" && exit 1
+test $2 && echo "das Script erwartet nur ein Argument" && exit 2
+
+echo "PID: $$"
+
+test -d $1 || mkdir -p $1 && cd $1
+
+pwd
+
+echo "PID: $$"
+
+exec bash
+

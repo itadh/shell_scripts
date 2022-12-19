@@ -1,0 +1,34 @@
+#!/bin/bash
+
+echo "Ich heisse: $0"
+echo "Argument 1: $1"
+echo "Argument 2: $2"
+echo "Argument 3: $3"
+echo "alle Argumente: $*"
+echo "Anzahl der Argumente: $#"
+
+
+counter=1
+all_args=$*
+for argument in $all_args
+do
+  echo "Argument $counter: $argument"
+  counter=$((counter+1))
+done
+
+echo "############"
+# alle Argumente: a b c d e s s f g h
+# Aufruf von shift
+# Ergebnis: b c d e s s f g h
+
+counter=0
+echo "Start Argument: $1"
+# In Perl gibt es dafür die Komnstrukte pop,push,shift,unshift
+
+while shift
+do
+  echo "Argument $counter: $1"
+  counter=$((counter+1))
+done
+
+

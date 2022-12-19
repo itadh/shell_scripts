@@ -1,0 +1,26 @@
+#!/bin/bash
+
+read -p 'Sollen die System Benutzer ausgegeben werden (j|n): ' choice
+
+IFS=':'
+while read login hash uid gid gecos home shell
+do
+
+  test $uid -lt 1000 && test $choice = 'n' && continue
+#  if test $uid -lt 1000 && test $choice = 'n'
+#  then
+#    continue
+#  fi
+
+  group=$(id -gn $login)
+  echo '##########################'
+  echo -e "\e[1muid:\e[0m $uid"
+  echo -e "\e[1mLogin:\e[0m  $login"
+  echo -e "\e[1mgid:\e[0m  $gid"
+  echo -e "\e[1mprimäre Gruppe:\e[0m  $group"
+  echo -e "\e[1mHome:\e[0m  $home"
+  echo -e "\e[1mShell:\e[0m  $shell"
+
+done < /etc/passwd
+
+

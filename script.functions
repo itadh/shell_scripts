@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo $$
+echo $0
+echo $?
+echo $#
+
+echo $1
+
+function foo () {
+  echo $var
+  local var=Value
+  echo "Local: $var"
+  echo "Parameter $2 #1 $1 " 
+  return 7
+}
+
+var=Wert
+foo 2 4
+echo "Result: $?"
+echo "Global: $var"
+

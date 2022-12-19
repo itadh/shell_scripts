@@ -1,0 +1,14 @@
+#!/bin/bash
+
+foo() {
+  while shift
+  do
+    echo "new var1: $1"
+  done
+#  while shift
+}
+
+
+
+foo a b c d e f g
+

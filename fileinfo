@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# verarbeitete alle Argumente
+for arg in $@
+do
+  echo "## Verzeichnis: ${arg} ##"
+  IFS='
+'
+  # hole alle Dateinamen und den Dateityp
+  #@TODO: Ausgabe soll farbig werden
+  for file in $(ls -1a $arg)
+  do
+    short_type=$(ls -lad ${arg}/${file} | cut -c1)
+    test "$short_type" == '-' && long_type='regular file'
+    test "$short_type" == 'd' && long_type='directory'
+    test "$short_type" == 'l' && long_type='link'
+    test "$short_type" == 'c' && long_type='character device'
+    test "$short_type" == 'b' && long_type='block device'
+    test "$short_type" == 's' && long_type='socket'
+    test "$short_type" == 'p' && long_type='pipe'
+    echo "Datei: ${arg}/${file}: ${long_type}"
+  done
+done
+

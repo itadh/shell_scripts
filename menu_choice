@@ -1,0 +1,28 @@
+#!/bin/bash
+clear
+
+PS3='Treffen Sie Ihre Wahl: '
+options=("Merkur" "Venus" "Erde" "Mars" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Merkur")
+            echo "Merkur ist der beste Planet."
+            ;;
+        "Venus")
+            echo "Venus ist der beste Planet."
+            ;;
+        "Erde")
+            echo "Erde ist der beste Planet."
+            ;;
+        "Mars")
+            echo "Mars ist der beste Planet."
+            ;;
+        "Quit")
+            echo "Bin dann mal weg!"
+            break
+            ;;
+        *) echo "ungueltige Eingabe $REPLY";;
+    esac
+done
+

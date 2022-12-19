@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+dir=$1
+test -z $dir && read -p 'Bitte ein Verzeichnis angeben: ' dir
+
+pwd
+echo "PID $$"
+test -d $dir || mkdir $dir && cd $dir
+pwd
+
+exec bash
+

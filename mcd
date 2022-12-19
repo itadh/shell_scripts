@@ -1,0 +1,16 @@
+#!/bin/bash 
+# autor: jz@drheuer.de
+# date: 2021.06.09
+
+#set -eo pipefail
+
+dir=$1
+test -z $dir && read -p 'Bitte geben Sie ein Verzeichnis ein: ' dir
+
+test -z $dir && echo "usage: mcd [diretory]" && exit 2
+test -d $dir || mkdir $dir 2> /dev/null
+cd $dir 2> /dev/null
+test $? -ne 0 && (echo "Kann nicht nach $dir wechseln" && exit 23)
+
+exec bash
+

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+counter=0
+#for item in {a..z}
+for item in $(ls /tmp)
+do
+  counter=$((counter+1))
+#  ITEM=$(tr [:lower:] [:upper:] <<< $item)
+  ITEM=$(echo $item | tr [:lower:] [:upper:])
+  echo "Datei Nr.: $counter heisst $item und in Großschreibung $ITEM"
+  echo 
+done
+
+

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#for item in $@
+echo $#
+while (($#))
+do
+  echo $1
+  shift
+done
+echo $@
+

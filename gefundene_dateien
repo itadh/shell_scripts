@@ -1,0 +1,21 @@
+#!/bin/bash
+
+
+dir=$1
+test -z $dir && read -p 'Geben Sie das Verzeichnis an: ' dir
+
+for datei in $(ls $dir)
+do  
+  echo "Dateiname: ${datei}"
+  ls -shd ${dir}/${datei} | cut -f1 -d' '
+  file ${dir}/${datei}
+done
+
+# Dateiname, Dateigröße, Inhalt der Datei
+
+
+#farbe=rot
+#farben=alle
+#
+#echo ${farbe}n
+

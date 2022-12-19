@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+persons=(Ernie Bert Bilbo Drakula)
+select person in $persons[@]
+do
+  echo $person
+done
+

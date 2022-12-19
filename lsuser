@@ -1,0 +1,39 @@
+#!/bin/bash
+
+counter=0
+IFS=:
+while read login password uid gid gecos home shell
+do
+  if test "$uid" -ge 1000
+  then
+    counter=$((counter + 1))
+    echo -e "\n\e[1;47;34m== ${counter} ${login} ==\e[0m"
+    echo -e "\e[1mLogin:\e[0m \e[36m${login}\e[0m"
+    echo -e "\e[1mUID:\e[0m \e[36m${uid}\e[0m"
+    echo -e "\e[1mHome:\e[0m \e[36m${home}\e[0m"
+    echo -e "\e[1mShell:\e[0m \e[36m${shell}\e[0m"
+    group=$(id "$login" -gn)
+    echo -e "\e[1mprim. Gruppe:\e[0m \e[36m${group}\e[0m"
+    groups=$(id "$login" -Gn)
+    IFS=' '
+    secgroups=''
+    for _group in $groups
+    do
+      test "$group" == "$_group" && continue
+      if test -z "$secgroups"
+      then 
+        secgroups="$_group"
+      else
+        secgroups="$secgroups,$_group"
+      fi
+    done
+    echo -e "\e[1msec. Gruppe:\e[0m \e[36m${secgroups}\e[0m"    
+    line=$(grep -E "^${login}:" /doc/shadow)
+    password_expire=$(echo "$line" | cut -d: -f8)
+    chdate=$(date -d "Thu Jan 1 1970 +$password_expire day")
+    echo -e "\e[1mAblauf Passwort:\e[0m \e[36m${chdate}\e[0m"    
+    IFS=:
+  fi
+
+done < /etc/passwd
+

@@ -1,0 +1,18 @@
+#!/bin/bash
+# author: jz@mgg.de
+# modified: 02.12.2022
+# description: test string is ipv4
+clear
+set -u
+
+# source functions
+. ~/bin/lib/regex_functions
+
+read -p 'Bitte geben Sie ein IPv4 Adresse ein: ' ipv4
+is_ipv4 "${ipv4}" '^' '$'
+result=$?
+
+( test "$result" -eq 0 && echo "${ipv4} ist eine gueltige IPv4 Adresse." ) || echo "${ipv4} ist keine gueltige IPv4 Adresse."
+
+exit $result
+

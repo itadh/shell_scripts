@@ -1,0 +1,14 @@
+#!/bin/bash
+
+read -p 'Geben Sie ein Wort ein: ' word
+
+function foo () 
+{
+  result=$(echo $word | tr '[a-z]' '[A-Z]')
+  echo $result
+}
+
+echo "Start"
+foo
+
+

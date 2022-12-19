@@ -1,0 +1,14 @@
+#!/bin/bash
+
+var='Globaler Wert'
+
+
+function my_function {
+  local var='Lokaler Wert'
+#  var='Lokaler Wert'
+  echo "Ich bin lokal gueltig: $var"
+}
+my_function
+
+echo "Ich bin global gueltig: $var"
+

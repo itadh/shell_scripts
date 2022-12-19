@@ -1,0 +1,13 @@
+#!/bin/bash
+
+file=/tmp/user.csv
+IFS=:
+while read login pass uid gid gecos home shell
+do
+  echo $login $pass $uid $gid $gecos $home $shell
+  test $uid -lt 1000 && continue
+  p_group=$(id -gn)
+  s_group=$(id -Gn | cut --complement -d' ' -f1 | tr ' ' ',' )
+  echo "${uid};${login};${home};${shell};${p_group};${s_group}" >> $file
+done < /etc/passwd
+

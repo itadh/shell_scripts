@@ -1,0 +1,20 @@
+#!/bin/bash
+
+clear
+read -p "Welches Format hat Ihre Eingabe " in_format
+read -p "Welches Format soll ihre Ausgabe haben: " out_format
+
+
+
+D2B=({0..1}{0..1}{0..1}{0..1}{0..1}{0..1}{0..1}{0..1})
+#clear
+read -p "Geben Sie eine dezimale Zahl ein: " number
+
+hex=$(printf "%x" $number)
+echo -e "Char: \x$hex"
+printf "Decimal: %d\n" $number
+printf "Hex: %x\n" $number
+printf "Octal: %o\n" $number
+echo "Binaer: ${D2B[$number]}"
+echo
+

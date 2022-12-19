@@ -1,0 +1,16 @@
+#!/bin/bash
+# author: jz@mgg.de
+# modified: 02.12.2022
+# description: get ipv4 addresses from input file
+clear
+
+# source functions
+. lib/regex_functions
+
+read -p 'Welche Datei soll nach IPv4 Adressen durchsucht werden: ' file
+read -p 'In welche Datei sollen die Ergebnisse gespeichert werden (<RETURN> for none): ' result_file
+get_ipv4 "${file}" ' ' ' ' "${result_file}"
+result=$?
+
+exit $result
+

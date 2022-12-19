@@ -1,0 +1,37 @@
+## global vars
+# IPv4 Adresse
+regex_ipv4='([0-9]{1,2}|[01][0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]{1,2}|[01][0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]{1,2}|[01][0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]{1,2}|[01][0-9]{2}|2[0-4][0-9]|25[0-5])'
+
+
+## functions
+function have_ipv4() {
+  # uebergebene Argumente lokal speichern
+  local regex=$1
+  local line=$2
+  # Die grep regex wird um die Begrenzer erweitert. Die Begrenzer sind alles, was keine
+  # Zahl ist.
+  echo "${line}" | grep -Eq "[^0-9]${regex}"'([^0-9]|$)'
+  # andere Formulierung
+  #echo "${line}" | grep -Eq "[^0-9]${regex}"'([^0-9]*)'
+  local result=$?
+  return $result
+}
+
+function get_ipv4() {
+  local regex=$1
+  local line=$2
+  # Die grep regex wird um die Begrenzer erweitert. Die Begrenzer sind alles, was keine
+  # Zahl ist.  
+  ipv4=$(echo "${line}" | grep -Eo "[^0-9]${regex}"'([^0-9]|$)')
+  # Schwierigkeit: es kann mehrere IP Adressen pro Zeile geben
+  # erstes tr: entferne aus den gefundenen IPs alles was nicht '0-9.\n' ist. Dadurch
+  # werden alle anderen Zeicher entfernt.
+  # zweites tr: ersetzt alle Leerzeichen durch '\n', dadurch steht jetzt jede IP auf
+  # einer eigenen Zeile.
+  # grep: entfernt alle Leerzeilen, 'Zeilenanfang beliebig viele Leerzeichen und
+  # Zeilenende'.
+  result=$(echo "${ipv4}" | tr -dc "0-9.\n " | tr -s ' ' "\n" | grep -Ev '^ *$')
+  # myresult kommt aus der aufrufenden Datei
+  myresult="${myresult}\n${result}" 
+}
+

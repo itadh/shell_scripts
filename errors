@@ -1,0 +1,10 @@
+#!/bin/bash 
+
+set -xueo pipefail
+
+clear
+ls -la /srv /xyz27
+cd /tmp
+date
+
+

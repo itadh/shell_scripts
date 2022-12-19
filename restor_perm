@@ -1,0 +1,36 @@
+#!/bin/bash
+
+dir="/etc"
+report_file="/tmp/perms.list"
+
+# erfassen der Datei Rechte
+function get_perms ()
+{
+  find $dir -exec stat -c %n:%a:%G:%U {} \; > $report_file 2> /dev/null
+}
+
+# Datei Rechte setzen
+function set_perms ()
+{
+  IFS=':'
+  while read file perms group user
+  do
+    chown $user:$group $file
+    chmod $perms $file
+  done < $report_file
+}
+
+# Hauptschleife
+clear
+while true
+do
+  echo "#### MENU ####"
+  echo " [e] für erfassen der Rechte"
+  echo " [s] für setzen der Rechte"
+  echo " [q] quit"
+  read -p "Bitte Aktion waehlen: " action
+  test $action == 'e' && get_perms
+  test $action == 's' && set_perms
+  test $action == 'q' && exit
+done
+

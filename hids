@@ -1,0 +1,30 @@
+#!/bin/bash
+# autor: jz@mgeg.de
+# modified: 06-12-2021
+# description: write system files attributes into db
+test -z "$1" && echo "usage: $0 init|check" && exit
+set -uo pipefail
+export LANG=POSIX
+db_file=/home/jz/hids.db
+path='/home/jz/bin/lib'
+result=1
+. lib/hids
+
+
+case "$1" in
+  init)
+    echo -e "${c_run}initialize database${c_reset}"
+    init $db_file $path
+    result=0
+    ;;
+  check)
+    check $db_file $path
+    result=$?
+    ;;
+  *)
+    echo -e "${c_fail}unknow action${c_reset}"
+    ;;
+esac
+
+test "$result" -ne 0 && echo -e "${c_fail}es haben sich Dateien verändert${c_reset}"
+

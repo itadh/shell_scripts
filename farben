@@ -1,0 +1,12 @@
+#!/bin/bash
+clear
+
+echo -e "\e[5;31;44mLogin\e[0m : Bert"
+
+# %20s means set the field at least 20 characters long. Blanks are added before the text because, by default, the output is right-justified. To
+# %align the text to left, use the - flag (%-20s).
+
+printf "%10s %8s\n" Login: bert
+printf "%10s %8s\n" Vorname: Bert
+printf "%10s %8s\n" Nachname: Lamberti
+

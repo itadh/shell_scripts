@@ -1,0 +1,15 @@
+#!/bin/bash
+
+case "$1" in
+  start)
+    echo "Sie gaben start ein"
+    ;;
+   stop)
+    echo "Sie gaben stop ein"
+    ;;
+   *)
+    echo "Sie gaben $1 ein"
+    ;;
+esac
+
+

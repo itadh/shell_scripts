@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#set -x
+
+function show () 
+{
+  # Userid >= 1000
+  IFS=':'
+  while read login hash uid gid gecos home shell
+  do
+    test $uid -lt 1000 && continue
+    test $login == "nobody" && continue
+    sec_group=$(id -Gn $uid)
+    pri_group=$(id -gn $uid)
+    echo "--------------"
+    echo "Login: $login"
+    echo "UserID: $uid"
+    echo "pri Gruppe: $pri_group"
+    echo "sec Gruppen: $sec_group"
+    echo "Home: $home"
+    echo "Shell: $shell" 
+  done < /etc/passwd
+}
+

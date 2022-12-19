@@ -1,0 +1,37 @@
+#!/bin/bash
+
+src_name=$1
+dest_name=$2
+
+#if <Bedingung>
+#then
+#  Anweisungsblock, kann aus mehreren Zeilen bestehen
+#else 
+#  Anweisungsblock, kann aus mehreren Zeilen bestehen
+#fi
+#
+############################################################
+##if $var -lt 10
+#############################################################
+#if test $var -lt 10
+#
+##if [ $var -le 10 ]
+#
+##if ( $var <= 10  )
+
+
+if test -z $src_name
+then
+  read -p 'Bitte Quelle eingeben: ' src_name
+fi
+
+
+if test -z $dest_name
+then
+  read -p 'Bitte Ziel eingeben: ' dest_name
+fi
+
+
+echo "Die Quelle heisst $src_name und das Ziel heisst $dest_name"
+
+

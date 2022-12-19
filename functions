@@ -4,13 +4,22 @@ function foo () {
   local string='inner Function'
   echo "Parameter #1 ist $1"
   echo "String: $string"
+  shift
+  echo $1
+  shift
+  echo $1
+  shift
+  echo $1
+  shift 
+  echo $1
   return 2
 }
 
 string=kleineZeichenkette
-foo 2
+foo 2 4 8 16 32 64 128 256 1024
 echo "Ergebnis: $?"
 
 echo $1
 echo "String 2: $string"
+
 

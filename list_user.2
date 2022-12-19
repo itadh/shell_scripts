@@ -1,0 +1,42 @@
+#!/bin/bash
+
+passwd_file=/etc/passwd
+
+IFS=':'
+while read login hash uid gid gecos home shell
+do
+  # verarbeite nur Benutzer mit einer UID groesser /gleich 1000
+  test $uid -lt 1000 && continue 
+#  test $uid -eq 1035 && break
+#  if test $uid -ge 1000
+#  then 
+    # wir brauchen den Namen zu GID
+    group_name=$(id -gn $login)
+  
+    # wir brauchen die Namen der sekundären Gruppen
+    groups_name=''    
+    for group in $(id $login -Gn)
+    do 
+      if ! test $group = $group_name
+      then 
+        if test -z $groups_name
+        then
+          groups_name=$group
+        else
+           groups_name="$groups_name,$group"
+        fi
+      fi
+    done
+
+    # Ausgabe
+    echo -e "###### $login ########"
+    echo -e "\e[1mLogin:\e[0m $login"
+    echo -e "\e[1mUID:\e[0m $uid"
+    echo -e "\e[1mHome:\e[0m $home"
+    echo -e "\e[1mShell:\e[0m $shell"
+    echo -e "\e[1mPrimäre Gruppe:\e[0m $group_name"
+    echo -e "\e[1mSekundäre Gruppen:\e[0m $groups_name"
+    echo
+#  fi
+done < $passwd_file
+
