@@ -4,5 +4,3 @@ dir=/usr/local/lib/joe/etc
 
 echo ${dir:-2:2}
 
-
-
